@@ -4,7 +4,7 @@ import * as firebase from 'firebase';
 import MainTabNavigator from '../navigation/MainTabNavigator';
 import {StackNavigator} from 'react-navigation';
 import {FormLabel, FormInput} from 'react-native-elements';
-import firebaseAPIKey from '../secrets'
+import firebaseAPIKey from '../expo/secrets'
 
 
 firebase.initializeApp({
