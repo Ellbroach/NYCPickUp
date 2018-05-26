@@ -9,15 +9,15 @@ class FieldPics extends Component {
   constructor() {
     super()
     this.images = [
-      require('../../assets/images/fieldImages/PickUp1.png'),
-      require('../../assets/images/fieldImages/PickUp2.png'),
-      require('../../assets/images/fieldImages/PickUp3.png'),
-      require('../../assets/images/fieldImages/PickUp4.png'),
-      require('../../assets/images/fieldImages/PickUp5.png'),
-      require('../../assets/images/fieldImages/PickUp6.png'),
-      require('../../assets/images/fieldImages/PickUp7.png'),
-      require('../../assets/images/fieldImages/PickUp8.png'),
-      require('../../assets/images/fieldImages/PickUp9.png'),
+      require('../../../assets/images/fieldImages/PickUp1.png'),
+      require('../../../assets/images/fieldImages/PickUp2.png'),
+      require('../../../assets/images/fieldImages/PickUp3.png'),
+      require('../../../assets/images/fieldImages/PickUp4.png'),
+      require('../../../assets/images/fieldImages/PickUp5.png'),
+      require('../../../assets/images/fieldImages/PickUp6.png'),
+      require('../../../assets/images/fieldImages/PickUp7.png'),
+      require('../../../assets/images/fieldImages/PickUp8.png'),
+      require('../../../assets/images/fieldImages/PickUp9.png'),
     ]
     this.imageIndex = Math.floor(Math.random() * (this.images.length));
   }

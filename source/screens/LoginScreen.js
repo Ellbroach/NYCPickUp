@@ -1,26 +1,33 @@
 import React from 'react';
+import {connect} from 'react-redux'
 import {View, Button, Text} from 'react-native';
 import * as firebase from 'firebase';
-import MainTabNavigator from '../navigation/MainTabNavigator';
+import MainTabNavigator from '../../navigation/MainTabNavigator';
 import {StackNavigator} from 'react-navigation';
 import {FormLabel, FormInput} from 'react-native-elements';
-import firebaseAPIKey from '../expo/secrets'
+import firebaseAPIKey from '../../secrets/APISecrets'
+import {startLogin, startSignUp} from '../store/actions/auth'
 
 
-firebase.initializeApp({
-    apiKey: firebaseAPIKey,
-    authDomain: "final-pick-up84.firebaseapp.com",
-    databaseURL: "https://final-pick-up84.firebaseio.com",
-    projectId: "final-pick-up84",
-    storageBucket: "final-pick-up84.appspot.com",
-    messagingSenderId: "566831377066"
-})
+//   firebase.auth().onAuthStateChanged((user) => {
+//     if (user) {
+//       console.log('USER HAS CHANGED IN APP: ', user)
+//       const name = user.displayName ? user.displayName : user.email;    
+//       store.dispatch(login(user.uid, name));
+//       this.props.navigation.navigate('Main');
+//       // renderApp();
+//       // if (history.location.pathname === '/') {
+//       //   history.push('/join');
+//       // }
+//     } 
+//   });
 
 
-export default class Login extends React.Component{
+export class Login extends React.Component{
     constructor(props){
         super(props)
         this.state = {
+            username: '',
             email: '',
             password: '',
             error: '',
@@ -28,12 +35,22 @@ export default class Login extends React.Component{
         }
     }
 
+    writeUserData(userId, name, email, imageUrl) {
+        userId = firebase.auth().currentUser.uid;
+        firebase.database().ref('users/' + userId).set({
+          username: this.state.username,
+          email: this.state.email,
+          password: this.state.password
+        });
+      }
+
     onLogin(){
         this.setState({error: '', loading: true})
 
-        const {email, password} = this.state;
+        const {username, email, password} = this.state;
         firebase.auth().signInWithEmailAndPassword(email, password)
         .then(() => {
+            this.writeUserData(username, email, password)
             this.setState({error: '', loading: false})
             this.props.navigation.navigate('Main');
         })
@@ -44,10 +61,10 @@ export default class Login extends React.Component{
 
     onSignUp(){
         this.setState({error: '', loading: true})
-
-        const {email, password} = this.state;
+        const {username, email, password} = this.state;
         firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(() => {
+            this.writeUserData(username, email, password)
             this.setState({error: '', loading: false})
             this.props.navigation.navigate('Main');
         })
@@ -55,6 +72,8 @@ export default class Login extends React.Component{
             this.setState({error: 'Logging in Failed', loading: false})
         })
     }
+
+    
     
     renderButtonOrLoading(){
         if(this.state.loading){
@@ -62,10 +81,13 @@ export default class Login extends React.Component{
         }
         return <View>
             <Button 
-            onPress={this.onLogin.bind(this)}
+            onPress={startLogin(this.state.username, this.state.email, this.state)}
             title = 'Login'/>
             <Button 
-            onPress={this.onSignUp.bind(this)}
+            onPress=
+            {
+                startSignUp(this.state.username, this.state.email, this.state.password)
+            }
             title = 'Sign Up'/>
         </View>
     }
@@ -73,6 +95,11 @@ export default class Login extends React.Component{
     render(){
         return(
             <View>
+                <FormLabel>UserName</FormLabel>
+                <FormInput
+                value = {this.state.username}
+                placeholder = 'username'
+                onChangeText = {username => this.setState({username})}/>
                 <FormLabel>Email</FormLabel>
                 <FormInput 
                 value = {this.state.email}
@@ -90,3 +117,10 @@ export default class Login extends React.Component{
         )
     }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+    startLogin: () => dispatch(startLogin(this.state.username, this.state.email, this.state.password)),
+    startSignUp: () => dispatch(startSignUp(this.state.username, this.state.email, this.state.password))
+  });
+
+  export default connect(undefined, mapDispatchToProps)(Login);

@@ -1,13 +1,13 @@
 import React from 'react';
 import { Notifications } from 'expo';
 import { createSwitchNavigator } from 'react-navigation';
-import LoginScreen from '../screens/LoginScreen'
-import FieldScreen from '../screens/FieldScreen'
+import LoginScreen from '../source/screens/LoginScreen'
+import FieldScreen from '../source/screens/FieldScreen'
 import MainTabNavigator from './MainTabNavigator';
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
 
 const AppNavigator = createSwitchNavigator({
-  //Login: LoginScreen,
+  Login: LoginScreen,
   Main: MainTabNavigator,
   Field: FieldScreen
 });

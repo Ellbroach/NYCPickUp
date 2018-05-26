@@ -10,10 +10,10 @@ import {
   Button
 } from 'react-native';
 import { WebBrowser } from 'expo';
-// import * as firebase from 'firebase';
+import * as firebase from 'firebase';
 import MapView, { Callout } from 'react-native-maps';
-import { MonoText } from '../components/StyledText';
-import MainTabNavigator from '../navigation/MainTabNavigator';
+import { MonoText } from '../../components/StyledText';
+import MainTabNavigator from '../../navigation/MainTabNavigator';
 import {StackNavigator} from 'react-navigation';
 
 
@@ -51,7 +51,43 @@ export default class HomeScreen extends React.Component {
         }
       ]
     }
+    //this.getUserInfo = this.getUserInfo.bind(this)
   }
+
+  // getUserInfo(){
+  //   let username = ''
+  //   var userId = firebase.auth().currentUser.uid;
+  //   return firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
+  //     username = (snapshot.val() && snapshot.val().username) || 'Anonymous';
+  //     console.log('USERINFO: ', username)
+  //   });
+  //   return username
+  // }
+
+  // firstToField = (e) => {
+  //   e.preventDefault();
+  //   const user = this.props.auth;
+  //   const value = e.target.rname.value.trim();
+  //   if(user) {
+  //     const name = user.displayName;
+  //     if(value) {
+  //       this.setState({error: ''});
+  //       const room = {
+  //         name: value,
+  //         people: {
+  //           id: user.uid,
+  //           name,
+  //           unread: 0,
+  //           lastRead: 0
+  //         }
+  //       }
+  //       this.props.startCreateRoom(room, this.showCreateError);
+  //     } else {
+  //       this.setState({error: 'Please enter a valid room name!'});
+  //     }
+      
+  //   }
+  // }
 
   navigateToField(markerInfo){
     const markerImage = markerInfo.image
@@ -59,6 +95,7 @@ export default class HomeScreen extends React.Component {
   }
 
   render() {
+    //console.log('TEST 2: ', this.getUserInfo())
     // var userId = firebase.auth().currentUser.uid;
     return (
       <View style={styles.container}>
@@ -76,7 +113,7 @@ export default class HomeScreen extends React.Component {
               longitude: marker.location.longitude
             }}
             title={marker.name}
-            image={require('../assets/images/soccerBall.png')}
+            image={require('../../assets/images/soccerBall.png')}
             >
             <MapView.Callout>
               <Text style={styles.markerText}>{marker.name}</Text>
